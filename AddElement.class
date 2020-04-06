@@ -1,0 +1,59 @@
+
+import javax.swing.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AddElement extends JFrame{
+
+	private static final long serialVersionUID = 1L;
+	private static JButton butAdd;
+	private static JTextField lengthField;
+	private static JTextField nameField;
+	private static JFrame frameAdd;
+	
+	public static void addFrame() {
+		
+		frameAdd = new JFrame();
+		frameAdd.setBounds(100, 100, 100, 150);
+		frameAdd.setResizable(false);
+		frameAdd.setVisible(true);
+		
+		JPanel panelName = new JPanel();
+		frameAdd.add(panelName);
+		panelName.setLayout(new BoxLayout(panelName, BoxLayout.Y_AXIS));
+		JLabel nameLabel = new JLabel("Название ножа");
+		panelName.add(nameLabel);
+		
+		nameField = new JTextField();
+		nameField.setHorizontalAlignment(SwingConstants.RIGHT);
+		panelName.add(nameField);
+		
+		JLabel lengthLabel = new JLabel("Длинна лезвия (см)");
+		panelName.add(lengthLabel);
+		
+		lengthField = new JTextField();
+		lengthField.setHorizontalAlignment(SwingConstants.RIGHT);
+		panelName.add(lengthField);		
+		
+		butAdd = new JButton("Добавить");
+		panelName.add(butAdd);
+		butAdd.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {		
+				String nameKnife = nameField.getText();		
+				String lengthKnife = lengthField.getText();		
+				try {//обработка ошибки неправельно введенных данных
+					int intLengthKnife = Integer.parseInt(lengthKnife);
+					Factory factory = new Factory();
+					Resurs.knifeList.add(factory.factoryKnife(nameKnife, intLengthKnife));
+					nameField.setText("");
+					lengthField.setText("");
+				}catch(NumberFormatException err) {
+					
+				}
+			}
+		});
+	}
+
+}
