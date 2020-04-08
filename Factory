@@ -1,0 +1,9 @@
+public class Factory {
+	
+	public Knife factoryKnife(String nameKnife, int intLengthKnife) {//фабричный метод
+		Knife knifeObj = new Knife();		
+		knifeObj.setKnife(nameKnife);
+		knifeObj.setLengthKnife(intLengthKnife);
+		return knifeObj;
+	}
+}
