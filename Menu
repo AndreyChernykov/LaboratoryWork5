@@ -1,0 +1,61 @@
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Menu {
+	
+	private String[] menuArr = {"1.Добавить", "2.Обновить", "3.Удалить", "4.Вывести", "0.Выход"};
+	private int itemMenu;
+	Resurs resurs = new Resurs();
+	
+	public void menu() {
+		System.out.println();
+		printMenu(menuArr);
+		toEnt(menuArr);
+		choiceMenu();
+		System.out.println();
+	}
+	
+	private void printMenu(String []menu){//выведение меню на экран
+		for(String str: menu) {
+			System.out.println(str);
+		}
+	}
+	
+	private void toEnt(String []menu) {//введение номера пункта меню
+		System.out.print("Введите номер пункта меню: ");
+		Scanner scan = new Scanner(System.in);		
+		try {
+			itemMenu = scan.nextInt();
+			if(itemMenu > menu.length) {
+				System.out.println("Такого пункта меню не существует");
+				toEnt(menu);
+			}
+		}catch(InputMismatchException e){
+			System.out.println("Некорректный ввод");
+			toEnt(menu);
+		}
+	}
+	
+	private void choiceMenu() {//выбор пункта меню
+		
+		switch(itemMenu) {
+		case 0:
+			System.exit(0);
+			break;
+		case 1://добавить
+			resurs.add();
+			break;
+		case 2://обновить
+			resurs.refresh();
+			break;
+		case 3://удвлить
+			resurs.remove();
+			break;
+		case 4://вывести на экран
+			resurs.printArray();
+			break;
+		}
+		menu();
+	}
+}
