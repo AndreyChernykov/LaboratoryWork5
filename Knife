@@ -1,0 +1,22 @@
+public class Knife{
+	
+	private String knife;
+	private int lengthKnife;
+	
+	public int getLengthKnife() {//длинна ножа
+		return lengthKnife;
+	}
+	
+	public void setLengthKnife(int lengthKnife) {
+		this.lengthKnife = lengthKnife;
+	}
+	
+	public String getKnife() {//наименование ножа
+		return knife;
+	}
+	
+	public void setKnife(String knife) {
+		this.knife = knife;
+	}
+	
+}
