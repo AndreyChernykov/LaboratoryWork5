@@ -1,7 +1,0 @@
-import java.util.ArrayList;
-
-public class Resurs {
-	
-	static ArrayList<Knife>knifeList = new ArrayList<>();
-	
-}
