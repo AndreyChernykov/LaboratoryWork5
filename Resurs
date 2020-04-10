@@ -2,116 +2,50 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Resurs {
+	
 	private int posVoid = 0;
-	private int refreshKnife = 0;
 	private Knife []arrayKnife = new Knife[100];
 	
 	Knife knife = new Knife();
-	Factory factory = new Factory();;
+	Factory factory = new Factory();
 	
-	public void add() {//добавление объекта
+	public Knife[] getArrayKnife(){
+		return arrayKnife;
+	}
+		
+	public void add(Knife knifeObj) {//добавление объекта
+		
 		if(posVoid < arrayKnife.length-1) {
-			int intLengthKnife;
-			Scanner scan = new Scanner(System.in);
-			System.out.print("Введите название ножа: ");
-			String nameKnife = scan.nextLine();
-					
-			while(true) {
-				Scanner scan2 = new Scanner(System.in);
-				System.out.print("Введите длинну лезвия (см): ");			
-				if(scan2.hasNextInt()) {
-					intLengthKnife = scan2.nextInt();
-					arrayKnife[posVoid] = factory.factoryKnife(nameKnife, intLengthKnife);
-					posVoid++;
-					break;
-				}else {
-					System.out.println("Неверное значение");	
-				}				
-			}
+			arrayKnife[posVoid] = knifeObj;
+			posVoid++;
 		}else {
 			System.out.println("Нет свободного места");
 		}
 	}
 	
-	public void refresh() {//обновить элемент
-		
-		while(true) {
-			Scanner scan = new Scanner(System.in);
-			System.out.print("Введите номер элемента который хотите обновить: ");			
-			if(scan.hasNextInt()) {
-				refreshKnife = scan.nextInt()-1;
-				if(refreshKnife < 0 || refreshKnife > arrayKnife.length) {
-					System.out.println("Неверное значение");
-					refresh();
-				}
-				break;
-			}else {
-				System.out.println("Неверное значение");	
-			}				
-		}
-		
+	public void refresh(int refreshKnife, String nameKnife, String lengthKnife) {//обновить элемент
+		int	intLengthKnife = 0;
 		try {
-			System.out.println(arrayKnife[refreshKnife].getKnife() + " " + arrayKnife[refreshKnife].getLengthKnife() + "см");
-			String nameKnife;
-			int intLengthKnife;
-			Scanner scan = new Scanner(System.in);
-			System.out.print("Введите название или оставьте пустым и нажмите ввод, чтобы оставить значение прежним: ");			
-			nameKnife = scan.nextLine();
-			if(nameKnife.length() == 0) {
-				nameKnife = arrayKnife[refreshKnife].getKnife();
+			if(nameKnife.length() != 0) {//меняем название
+				arrayKnife[refreshKnife] = factory.factoryKnife(nameKnife, arrayKnife[refreshKnife].getLengthKnife());
+			}else {
+				arrayKnife[refreshKnife] = factory.factoryKnife(arrayKnife[refreshKnife].getKnife(), arrayKnife[refreshKnife].getLengthKnife());
 			}
-								
-			while(true) {
-				Scanner scan2 = new Scanner(System.in);
-				System.out.print("Введите длинну лезвия (см) или оставьте пустым и нажмите ввод, чтобы оставить значение прежним: ");	
-				
-				try {
-					String LengthKnife = scan2.nextLine();
-					if(LengthKnife.length() == 0) {
-						arrayKnife[refreshKnife] = factory.factoryKnife(nameKnife, arrayKnife[refreshKnife].getLengthKnife());
-						break;
-					}
-					intLengthKnife = Integer.parseInt(LengthKnife);
-					arrayKnife[refreshKnife] = factory.factoryKnife(nameKnife, intLengthKnife);
-					break;
-				}catch(NumberFormatException e) {
-					System.out.println("Неверное значение");	
-				}		
-			}			
-		}catch(NullPointerException e){
-			System.out.println("Такого элемента не существует");
-		}		
+			if(lengthKnife != "0") {//меняем длинну лезвия
+				intLengthKnife = Integer.parseInt(lengthKnife);
+				arrayKnife[refreshKnife] = factory.factoryKnife(arrayKnife[refreshKnife].getKnife(), intLengthKnife);		
+				}else {
+					arrayKnife[refreshKnife] = factory.factoryKnife(arrayKnife[refreshKnife].getKnife(), arrayKnife[refreshKnife].getLengthKnife());
+				}
+		}catch(NullPointerException er) {
+			arrayKnife[refreshKnife] = factory.factoryKnife(nameKnife, intLengthKnife);
+		}
 	}
 	
-	public void remove() {//удаление объекта
-		int numEl = 0;
-		Scanner scan = new Scanner(System.in);
-		System.out.print("Введите номер элемента который хотите удалить: ");
-		try {//обработка ошибки ввода номера объекта
-			try {
-				numEl = scan.nextInt()-1;
-				arrayKnife[numEl] = null;
-			}catch(ArrayIndexOutOfBoundsException err) {
-				System.out.println("Некорректно введен номер, введите число от 1 до " + arrayKnife.length);
-				remove();
-			}		
-		}catch(InputMismatchException e){
-			System.out.println("Некорректный ввод");
-			remove();
-		}
+	public void remove(int numEl) {//удаление объекта
+
+		//arrayKnife[numEl] = null;
+		arrayKnife[numEl] = factory.factoryKnife("удалено", 0);
 		System.out.println("Элемент удалён");
-	}
-	
-	public void printArray() {//выведение на экран списка объектов
-		boolean arrayKnifeVoid = true;
-		for(int i = 0; i < arrayKnife.length; i++) {
-			if(arrayKnife[i] != null) {
-				System.out.println(i+1 + " " + arrayKnife[i].getKnife() + " " + arrayKnife[i].getLengthKnife() + "см");
-				arrayKnifeVoid = false;
-			}			
-		}
-		if(arrayKnifeVoid) {
-			System.out.println("Список пуст");
-		}
 	}	
 }
